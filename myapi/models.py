@@ -31,14 +31,14 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     name = models.CharField(max_length=100, blank=False)
     phone_number = models.PositiveIntegerField(blank=False)
-    gender = models.CharField(choices=choices, max_length=10, default='Male',blank=True)
-    profile_pic = models.ImageField(verbose_name='profile_pic',upload_to='profile_pics',blank=True)
-    date_of_birth = models.DateTimeField(blank=True, verbose_name='DOB')
-    address = models.OneToOneField(Address,related_name='profiles',on_delete=models.CASCADE, blank=True)
-    friends = models.ManyToManyField('self',symmetrical=False, blank=True)
+    gender = models.CharField(choices=choices, max_length=10, default='Male',blank=True, null=True)
+    profile_pic = models.ImageField(verbose_name='profile_pic',upload_to='profile_pics',blank=True, null=True)
+    date_of_birth = models.DateTimeField(blank=True, verbose_name='DOB', null=True)
+    address = models.OneToOneField(Address,related_name='profiles',on_delete=models.CASCADE, blank=True, null=True)
+    friends = models.ManyToManyField('self',symmetrical=False, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['phone_number','name',]
 
     objects = ProfileManager()
 
