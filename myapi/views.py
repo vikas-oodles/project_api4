@@ -3,10 +3,20 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework import status
-from .serializers import UserModelSerializer
+from .serializers import UserModelSerializer, UserLoginSerializer
 from django.contrib.auth import get_user_model
 # Create your views here.
 UserModel = get_user_model()
+
+class UserLoginView(GenericAPIView):
+    queryset = UserModel.objects.all()
+    serializer_class = UserLoginSerializer
+
+    def post(self,request, *args, **kwargs):
+        serializer_class = UserLoginSerializer(data=request.data)
+        if serializer_class.is_valid(raise_exception=True):
+            return Response(serializer_class.data, status=status.HTTP_200_OK)
+        return Response(serializer_class.data, status=status.HTTP_400_BAD_REQUEST)
 
 class UserRegistrationApiView(GenericAPIView):
     serializer_class = UserModelSerializer
