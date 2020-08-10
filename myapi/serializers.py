@@ -1,12 +1,18 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+
+
+
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from uuid import uuid4
 from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate
 from django.utils import timezone
 
 UserModel = get_user_model()
+
+
 
 class UserModelSerializer(serializers.ModelSerializer):
 
@@ -26,8 +32,8 @@ class UserModelSerializer(serializers.ModelSerializer):
         default='Male',
         required=False,
     )
-    date_of_birth = serializers.DateField(
-        default= timezone.now().date(),
+    date_of_birth = serializers.DateTimeField(
+        default= timezone.now(),
         required=False,
     )
 
@@ -65,10 +71,10 @@ class UserLoginSerializer(serializers.ModelSerializer):
                 Q(email=email) &
                 Q(password=password)
             ).distinct()
-
+            print(user)
             if not user.exists():
                 raise ValidationError("User Credential are not correct1!")
-
+            
             user = UserModel.objects.get(email=email)
         
 
