@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    # 'rest_framework_jwt',
+
+
     'myapi',
 ]
 
@@ -70,6 +75,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project_api4.wsgi.application'
 
+#=======RESTFRAMEWORK====#
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    )
+}
+#===========================#
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
